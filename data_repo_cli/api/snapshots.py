@@ -1,25 +1,22 @@
 from data_repo_cli.api.jobs import wait_for_job
 from data_repo_cli.common.gcloud_commands import get_current_gcloud_user
 from data_repo_cli.common.client_logger import logger
-from data_repo_cli.common.utils import dispatch_single_id_arg
+from data_repo_cli.dispatch.utils import dispatch_single_id_arg
+from data_repo_cli.dispatch.snapshots import dispatch_delete_snapshot
 
 
 def setup_parser(subparsers):
     delete_snapshot_parser = subparsers.add_parser('delete-snapshot', help='delete a snapshot from TDR')
     delete_snapshot_parser.set_defaults(func=dispatch_delete_snapshot)
     delete_snapshot_parser.add_argument('id', metavar='id', nargs=1, help='The ID of the snapshot to delete')
-    delete_snapshot_parser.add_argument('--add-steward', action='store_true', help='Add the currently-authed gcloud '
-                                                                                   'user as steward before deleting')
+    delete_snapshot_parser.add_argument('--add-steward', action='store_true',
+                                        help='Add the currently-authed gcloud user as steward before deleting')
 
-    snapshots_for_dataset_parser = subparsers.add_parser('snapshots-for-dataset', help='Get the snapshots belonging to a dataset')
+    snapshots_for_dataset_parser = subparsers.add_parser('snapshots-for-dataset',
+                                                         help='Get the snapshots belonging to a dataset')
     snapshots_for_dataset_parser.set_defaults(func=dispatch_single_id_arg(get_snapshots_for_dataset))
-    snapshots_for_dataset_parser.add_argument('id', metavar='id', nargs=1, help='The ID of the dataset to get the snapshots for')
-
-
-def dispatch_delete_snapshot(clients, args):
-    snapshot_id = args.id[0]
-    add_steward = args.add_steward
-    return delete_snapshot(clients, snapshot_id, add_steward)
+    snapshots_for_dataset_parser.add_argument('id', metavar='id', nargs=1,
+                                              help='The ID of the dataset to get the snapshots for')
 
 
 def add_snapshot_policy_member(clients, snapshot_id, email, policy_name):

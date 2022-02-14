@@ -6,14 +6,8 @@ import argparse
 from data_repo_cli.api.jobs import setup_parser as setup_job_parser
 from data_repo_cli.api.datasets import setup_parser as setup_dataset_parser
 from data_repo_cli.api.snapshots import setup_parser as setup_snapshot_parser
+from data_repo_cli.common.constants import ENVIRONMENTS
 from data_repo_cli.common.gcloud_commands import get_access_token
-
-ENVIRONMENTS = {
-    'localhost': 'http://localhost:8080',
-    'dev': 'https://jade.datarepo-dev.broadinstitute.org',
-    'prod': 'https://data.terra.bio'
-}
-
 
 class Clients:
     def __init__(self, host):
