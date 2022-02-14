@@ -1,7 +1,7 @@
 import time
 
 from data_repo_cli.common.client_logger import logger
-from data_repo_cli.common.utils import dispatch_single_id_arg
+from data_repo_cli.dispatch.utils import dispatch_single_id_arg
 
 
 def setup_parser(subparsers):
