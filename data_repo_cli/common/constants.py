@@ -8,3 +8,4 @@ ENVIRONMENTS = {
 SORT_FIELDS = ["name", "description", "created_date"]
 SORT_DIRECTIONS = ["asc", "desc"]
 
+RETRIEVE_DATASETS_INCLUDES = ["NONE", "SCHEMA", "ACCESS_INFORMATION", "PROFILE", "DATA_PROJECT", "STORAGE"]

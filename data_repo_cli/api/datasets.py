@@ -2,31 +2,6 @@ from data_repo_cli.api.jobs import wait_for_job
 from data_repo_cli.common.gcloud_commands import get_current_gcloud_user
 
 from data_repo_cli.common.client_logger import logger
-from data_repo_cli.common.constants import SORT_FIELDS, SORT_DIRECTIONS
-from data_repo_cli.dispatch.datasets import dispatch_delete_dataset, dispatch_enumerate_datasets
-
-
-def setup_parser(subparsers):
-    delete_dataset_parser = subparsers.add_parser('delete-dataset', help='delete a dataset from TDR')
-    delete_dataset_parser.set_defaults(func=dispatch_delete_dataset)
-    delete_dataset_parser.add_argument('id', metavar='id', nargs=1, help='The ID of the dataset to delete')
-    delete_dataset_parser.add_argument('--add-steward', action='store_true', help='Add the currently-authed gcloud '
-                                                                                  'user as steward before deleting')
-
-    enumerate_datasets_parser = subparsers.add_parser('enumerate-datasets', help="Enumerate datasets")
-    enumerate_datasets_parser.set_defaults(func=dispatch_enumerate_datasets)
-    enumerate_datasets_parser.add_argument('-f', '--filter', type=str, default=None,
-                                           help="Case-insensitive match on the name or description")
-    enumerate_datasets_parser.add_argument('-s', '--sort', type=str, choices=SORT_FIELDS, default=None,
-                                           help="Field to sort results by")
-    enumerate_datasets_parser.add_argument('-d', '--direction', type=str, choices=SORT_DIRECTIONS, default=None,
-                                           help="The direction of sorting")
-    enumerate_datasets_parser.add_argument('-r', '--region', type=str, default=None,
-                                           help="Restrict results to the provided region")
-    enumerate_datasets_parser.add_argument('-o', '--offset', type=int, default=None,
-                                           help="Offset the results be the specified amount")
-    enumerate_datasets_parser.add_argument('-l', '--limit', type=int, default=None,
-                                           help="Limit the results to the specified number")
 
 
 def enumerate_datasets(clients, filter_string, sort, direction, offset, limit):
@@ -37,6 +12,10 @@ def enumerate_datasets(clients, filter_string, sort, direction, offset, limit):
         offset=offset,
         limit=limit
     )
+
+
+def retrieve_dataset(clients, dataset_id, include):
+    return clients.datasets_api.retrieve_dataset(dataset_id, include=include)
 
 
 def add_dataset_policy_member(clients, dataset_id, email, policy_name):
