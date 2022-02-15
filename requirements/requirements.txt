@@ -1,1 +1,2 @@
-data_repo_client==1.290.0
+data_repo_client==1.293.0
+firestore==0.0.8

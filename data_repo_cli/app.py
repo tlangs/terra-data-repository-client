@@ -3,11 +3,13 @@ import json
 from data_repo_client import Configuration, ApiClient, ProfilesApi, DatasetsApi, SnapshotsApi, JobsApi
 import argparse
 
-from data_repo_cli.api.jobs import setup_parser as setup_job_parser
-from data_repo_cli.api.datasets import setup_parser as setup_dataset_parser
-from data_repo_cli.api.snapshots import setup_parser as setup_snapshot_parser
+from data_repo_cli.parser.jobs import setup_jobs_parser
+from data_repo_cli.parser.datasets import setup_datasets_parser
+from data_repo_cli.parser.snapshots import setup_snapshots_parser
+from data_repo_cli.parser.firestore import setup_firestore_parser
 from data_repo_cli.common.constants import ENVIRONMENTS
 from data_repo_cli.common.gcloud_commands import get_access_token
+
 
 class Clients:
     def __init__(self, host):
@@ -30,9 +32,10 @@ def setup_parser():
                         required=True)
     subparsers = parser.add_subparsers(help='The action to run')
 
-    setup_job_parser(subparsers)
-    setup_dataset_parser(subparsers)
-    setup_snapshot_parser(subparsers)
+    setup_jobs_parser(subparsers)
+    setup_datasets_parser(subparsers)
+    setup_snapshots_parser(subparsers)
+    setup_firestore_parser(subparsers)
     return parser
 
 
